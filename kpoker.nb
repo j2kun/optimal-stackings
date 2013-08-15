@@ -1,0 +1,594 @@
+(* Content-type: application/vnd.wolfram.mathematica *)
+
+(*** Wolfram Notebook File ***)
+(* http://www.wolfram.com/nb *)
+
+(* CreatedBy='Mathematica 8.0' *)
+
+(*CacheID: 234*)
+(* Internal cache information:
+NotebookFileLineBreakTest
+NotebookFileLineBreakTest
+NotebookDataPosition[       157,          7]
+NotebookDataLength[     22159,        585]
+NotebookOptionsPosition[     21478,        557]
+NotebookOutlinePosition[     21835,        573]
+CellTagsIndexPosition[     21792,        570]
+WindowFrame->Normal*)
+
+(* Beginning of Notebook Content *)
+Notebook[{
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"communitySize", "=", "4"}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"fullDeck", "=", 
+    RowBox[{"{", 
+     RowBox[{
+     "2", ",", "3", ",", "4", ",", "5", ",", "6", ",", "7", ",", "8", ",", 
+      "9", ",", "10"}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"isStraight", "[", "hand_", "]"}], " ", ":=", " ", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"Apply", "[", 
+      RowBox[{"And", ",", 
+       RowBox[{"Table", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{
+           RowBox[{
+           "hand", "\[LeftDoubleBracket]", "i", "\[RightDoubleBracket]"}], 
+           "+", "1"}], "\[Equal]", 
+          RowBox[{"hand", "\[LeftDoubleBracket]", 
+           RowBox[{"i", "+", "1"}], "\[RightDoubleBracket]"}]}], ",", 
+         RowBox[{"{", 
+          RowBox[{"i", ",", "1", ",", 
+           RowBox[{
+            RowBox[{"Length", "[", "hand", "]"}], "-", "1"}]}], "}"}]}], 
+        "]"}]}], "]"}], ",", "hand", ",", 
+     RowBox[{"{", "}"}]}], "]"}]}], ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"bestStraight", "[", "hand_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "straights", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"straights", "=", 
+        RowBox[{"Select", "[", 
+         RowBox[{
+          RowBox[{"Table", "[", 
+           RowBox[{
+            RowBox[{"isStraight", "[", 
+             RowBox[{"hand", "\[LeftDoubleBracket]", 
+              RowBox[{"i", ";;", 
+               RowBox[{"i", "+", "4"}]}], "\[RightDoubleBracket]"}], "]"}], 
+            ",", 
+            RowBox[{"{", 
+             RowBox[{"i", ",", "1", ",", 
+              RowBox[{
+               RowBox[{"Length", "[", "hand", "]"}], "-", "4"}]}], "}"}]}], 
+           "]"}], ",", 
+          RowBox[{
+           RowBox[{"(", 
+            RowBox[{"#", "\[NotEqual]", 
+             RowBox[{"{", "}"}]}], ")"}], "&"}]}], "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{"straights", "\[Equal]", 
+          RowBox[{"{", "}"}]}], ",", 
+         RowBox[{"{", "}"}], ",", 
+         RowBox[{"straights", "\[LeftDoubleBracket]", 
+          RowBox[{"-", "1"}], "\[RightDoubleBracket]"}]}], "]"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"HighCardGreater", "[", 
+     RowBox[{"lst1_", ",", "lst2_"}], "]"}], ":=", 
+    RowBox[{"Catch", "[", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"MapThread", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"If", "[", 
+          RowBox[{
+           RowBox[{"#1", "\[Equal]", "#2"}], ",", "False", ",", 
+           RowBox[{"Throw", "[", 
+            RowBox[{"Greater", "[", 
+             RowBox[{"#1", ",", "#2"}], "]"}], "]"}]}], "]"}], "&"}], ",", 
+        RowBox[{"{", 
+         RowBox[{"lst1", ",", "lst2"}], "}"}]}], "]"}], ";", " ", 
+      "\[IndentingNewLine]", "False"}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"highCard", "[", "sortedHand_", "]"}], ":=", 
+   RowBox[{"Sort", "[", 
+    RowBox[{"sortedHand", ",", "Greater"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"evalHand", "[", "sortedHand_", "]"}], ":=", " ", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"bestStraight", "[", "sortedHand", "]"}], ",", 
+      RowBox[{"highCard", "[", "sortedHand", "]"}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"determineWin", "[", 
+     RowBox[{"{", 
+      RowBox[{"eval1_", ",", "eval2_"}], "}"}], "]"}], ":=", 
+    "\[IndentingNewLine]", 
+    RowBox[{"Switch", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{
+        "eval1", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], ",", 
+        
+        RowBox[{
+        "eval2", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}]}], 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", "}"}], ",", 
+        RowBox[{"{", "}"}]}], "}"}], ",", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{
+         "eval1", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+         "\[Equal]", 
+         RowBox[{
+         "eval2", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}], 
+        ",", "0", ",", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{"HighCardGreater", "[", 
+           RowBox[{
+            RowBox[{
+            "eval1", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+            ",", 
+            RowBox[{
+            "eval2", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}]}],
+            "]"}], ",", "1", ",", 
+          RowBox[{"-", "1"}]}], "]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"_List", ",", 
+        RowBox[{"{", "}"}]}], "}"}], ",", " ", "1", ",", 
+      "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"{", "}"}], ",", "_List"}], "}"}], ",", 
+      RowBox[{"-", "1"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"{", 
+       RowBox[{"_List", ",", "_List"}], "}"}], ",", " ", 
+      RowBox[{"If", "[", 
+       RowBox[{
+        RowBox[{
+         RowBox[{"eval1", "\[LeftDoubleBracket]", 
+          RowBox[{"1", ",", 
+           RowBox[{"-", "1"}]}], "\[RightDoubleBracket]"}], "\[Equal]", 
+         RowBox[{"eval2", "\[LeftDoubleBracket]", 
+          RowBox[{"1", ",", 
+           RowBox[{"-", "1"}]}], "\[RightDoubleBracket]"}]}], ",", "0", ",", 
+        RowBox[{"If", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"eval1", "\[LeftDoubleBracket]", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "\[RightDoubleBracket]"}], ">", 
+           RowBox[{"eval2", "\[LeftDoubleBracket]", 
+            RowBox[{"1", ",", 
+             RowBox[{"-", "1"}]}], "\[RightDoubleBracket]"}]}], ",", "1", ",", 
+          RowBox[{"-", "1"}]}], "]"}]}], "]"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"dealKunPoker", "[", "deck_", "]"}], ":=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Sort", "[", 
+       RowBox[{
+        RowBox[{"deck", "\[LeftDoubleBracket]", 
+         RowBox[{"1", ";;", "3", ";;", "2"}], "\[RightDoubleBracket]"}], 
+        "\[Union]", 
+        RowBox[{"deck", "\[LeftDoubleBracket]", 
+         RowBox[{"5", ";;", 
+          RowBox[{"5", "+", "communitySize", "-", "1"}]}], 
+         "\[RightDoubleBracket]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Sort", "[", 
+       RowBox[{
+        RowBox[{"deck", "\[LeftDoubleBracket]", 
+         RowBox[{"2", ";;", "4", ";;", "2"}], "\[RightDoubleBracket]"}], 
+        "\[Union]", 
+        RowBox[{"deck", "\[LeftDoubleBracket]", 
+         RowBox[{"5", ";;", 
+          RowBox[{"5", "+", "communitySize", "-", "1"}]}], 
+         "\[RightDoubleBracket]"}]}], "]"}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"dealKunPokerBurn", "[", "deck_", "]"}], ":=", 
+    RowBox[{"{", 
+     RowBox[{
+      RowBox[{"Sort", "[", 
+       RowBox[{
+        RowBox[{"deck", "\[LeftDoubleBracket]", 
+         RowBox[{"1", ";;", "3", ";;", "2"}], "\[RightDoubleBracket]"}], 
+        "\[Union]", 
+        RowBox[{"deck", "\[LeftDoubleBracket]", 
+         RowBox[{"6", ";;", 
+          RowBox[{"6", "+", "communitySize", "-", "1"}]}], 
+         "\[RightDoubleBracket]"}]}], "]"}], ",", "\[IndentingNewLine]", 
+      RowBox[{"Sort", "[", 
+       RowBox[{
+        RowBox[{"deck", "\[LeftDoubleBracket]", 
+         RowBox[{"2", ";;", "4", ";;", "2"}], "\[RightDoubleBracket]"}], 
+        "\[Union]", 
+        RowBox[{"deck", "\[LeftDoubleBracket]", 
+         RowBox[{"6", ";;", 
+          RowBox[{"6", "+", "communitySize", "-", "1"}]}], 
+         "\[RightDoubleBracket]"}]}], "]"}]}], "}"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"makeCut", "[", 
+    RowBox[{"list_", ",", "i_"}], "]"}], ":=", 
+   RowBox[{"If", "[", 
+    RowBox[{
+     RowBox[{"i", "\[Equal]", "0"}], ",", "list", ",", 
+     RowBox[{"Join", "[", 
+      RowBox[{
+       RowBox[{"list", "\[LeftDoubleBracket]", 
+        RowBox[{
+         RowBox[{"i", "+", "1"}], ";;"}], "\[RightDoubleBracket]"}], ",", 
+       RowBox[{"list", "\[LeftDoubleBracket]", 
+        RowBox[{";;", "i"}], "\[RightDoubleBracket]"}]}], "]"}]}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"allCuts", "[", "list_", "]"}], ":=", 
+    RowBox[{"Table", "[", 
+     RowBox[{
+      RowBox[{"makeCut", "[", 
+       RowBox[{"list", ",", "i"}], "]"}], ",", 
+      RowBox[{"{", 
+       RowBox[{"i", ",", "0", ",", 
+        RowBox[{
+         RowBox[{"Length", "[", "list", "]"}], "-", "1"}]}], "}"}]}], "]"}]}],
+    ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"tallyCuts", "[", "deck_", "]"}], ":=", 
+   RowBox[{"Module", "[", 
+    RowBox[{
+     RowBox[{"{", 
+      RowBox[{
+       RowBox[{"cuts", "=", 
+        RowBox[{"allCuts", "[", "deck", "]"}]}], ",", " ", "handPairs"}], 
+      "}"}], ",", "\[IndentingNewLine]", 
+     RowBox[{
+      RowBox[{"handPairs", "=", 
+       RowBox[{"Map", "[", 
+        RowBox[{"dealKunPokerBurn", ",", "cuts"}], "]"}]}], ";", " ", 
+      RowBox[{"(*", " ", 
+       RowBox[{
+       "choose", " ", "the", " ", "type", " ", "of", " ", "game", " ", 
+        "here"}], " ", "*)"}], "\[IndentingNewLine]", 
+      RowBox[{"Sort", "[", 
+       RowBox[{"Tally", "[", 
+        RowBox[{"Map", "[", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"determineWin", "[", 
+            RowBox[{"{", 
+             RowBox[{
+              RowBox[{"evalHand", "[", 
+               RowBox[{
+               "#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+               "]"}], ",", 
+              RowBox[{"evalHand", "[", 
+               RowBox[{
+               "#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}], 
+               "]"}]}], "}"}], "]"}], "&"}], ",", "handPairs"}], "]"}], "]"}],
+        "]"}]}]}], "\[IndentingNewLine]", "]"}]}], ";"}]}], "Input",
+ CellChangeTimes->{{3.519170497541532*^9, 3.519170511950232*^9}, {
+   3.519170606723946*^9, 3.519170672782873*^9}, {3.519170724566021*^9, 
+   3.519170963747266*^9}, {3.519171134126973*^9, 3.51917118964381*^9}, {
+   3.519171240060906*^9, 3.519171241419185*^9}, {3.519171369521291*^9, 
+   3.519171575019185*^9}, {3.519171608310726*^9, 3.519171615674069*^9}, {
+   3.519171653872126*^9, 3.519171776781516*^9}, {3.519172853688699*^9, 
+   3.519172869693987*^9}, {3.519173370072991*^9, 3.519173509414074*^9}, {
+   3.519173539443495*^9, 3.519173579605149*^9}, {3.519174029539726*^9, 
+   3.51917403572456*^9}, {3.519174072799622*^9, 3.519174083406638*^9}, {
+   3.519174114756407*^9, 3.519174141909098*^9}, {3.519174188584132*^9, 
+   3.519174232089031*^9}, {3.519174288148753*^9, 3.519174368442854*^9}, 
+   3.519174422472964*^9, {3.519175006180833*^9, 3.519175008378422*^9}, {
+   3.519175109896356*^9, 3.519175132252281*^9}, {3.51917516467102*^9, 
+   3.519175336808048*^9}, {3.519175595610828*^9, 3.519175662179876*^9}, {
+   3.519175727966552*^9, 3.519175782668293*^9}, {3.519175840536015*^9, 
+   3.519175869568249*^9}, {3.519175947177942*^9, 3.51917595256839*^9}, {
+   3.519176145421184*^9, 3.519176192294052*^9}, {3.5192133406448*^9, 
+   3.519213348665969*^9}, {3.519345272742709*^9, 3.519345301352449*^9}, {
+   3.519382531220648*^9, 3.519382552811226*^9}, {3.519382877451364*^9, 
+   3.519382951686217*^9}, {3.51942784796019*^9, 3.519427855149577*^9}, {
+   3.519429100064697*^9, 3.519429121291503*^9}}],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"getSmallestPerm", "[", "lst_", "]"}], ":=", 
+    RowBox[{"Select", "[", 
+     RowBox[{"lst", ",", 
+      RowBox[{
+       RowBox[{
+        RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+        "\[Equal]", "2"}], "&"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"foundNewPerm", "[", "perm_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", 
+       RowBox[{
+        RowBox[{"cuts", "=", 
+         RowBox[{"allCuts", "[", "perm", "]"}]}], ",", " ", "smallestCut"}], 
+       "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"smallestCut", "=", 
+        RowBox[{"getSmallestPerm", "[", "cuts", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{"If", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"hash", "[", "smallestCut", "]"}], "\[Equal]", "0"}], ",", 
+         RowBox[{
+          RowBox[{
+           RowBox[{"hash", "[", "smallestCut", "]"}], "=", "1"}], ";", " ", 
+          "True"}], ",", "False"}], "]"}]}]}], "\[IndentingNewLine]", "]"}]}],
+    ";"}], "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"permutationsUpToCuts", "[", "fullDeck_", "]"}], ":=", 
+    RowBox[{"Module", "[", 
+     RowBox[{
+      RowBox[{"{", "allPerms", "}"}], ",", "\[IndentingNewLine]", 
+      RowBox[{
+       RowBox[{"Clear", "[", "hash", "]"}], ";", "\[IndentingNewLine]", 
+       RowBox[{"allPerms", " ", "=", " ", 
+        RowBox[{"Permutations", "[", "fullDeck", "]"}]}], ";", 
+       "\[IndentingNewLine]", 
+       RowBox[{
+        RowBox[{"hash", "[", "_", "]"}], "=", "0"}], ";", 
+       "\[IndentingNewLine]", "\[IndentingNewLine]", 
+       RowBox[{"Select", "[", 
+        RowBox[{"allPerms", ",", "foundNewPerm"}], "]"}]}]}], 
+     "\[IndentingNewLine]", "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"Timing", "[", 
+  RowBox[{
+   RowBox[{"decks", "=", 
+    RowBox[{"permutationsUpToCuts", "[", 
+     RowBox[{"{", 
+      RowBox[{
+      "2", ",", "3", ",", "4", ",", "5", ",", "6", ",", "7", ",", "8", ",", 
+       "9", ",", "10"}], "}"}], "]"}]}], ";"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.519175937936923*^9, 3.51917609546143*^9}, {
+  3.519176183307728*^9, 3.519176314336526*^9}, {3.519176400319237*^9, 
+  3.519176443471194*^9}, {3.519176482414818*^9, 3.519176505433082*^9}, {
+  3.519176587953336*^9, 3.519176652345932*^9}, {3.519176725785677*^9, 
+  3.519176732979748*^9}, {3.519345218813272*^9, 3.51934522423728*^9}, {
+  3.519345331652436*^9, 3.519345350961024*^9}, {3.519345422706944*^9, 
+  3.519345494673447*^9}, {3.519345874912661*^9, 3.51934631681801*^9}, {
+  3.519346371099637*^9, 3.519346376461479*^9}, {3.519346418702874*^9, 
+  3.519346421753923*^9}, {3.519346480457132*^9, 3.519346562061242*^9}, {
+  3.519346658071774*^9, 3.519346665054589*^9}, {3.519346721135464*^9, 
+  3.519346781837754*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"152.385523`", ",", "Null"}], "}"}]], "Output",
+ CellChangeTimes->{{3.519346757810957*^9, 3.519346778662878*^9}, 
+   3.519346926447416*^9, 3.519380929956555*^9, 3.519408416398063*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{"Length", "[", "decks", "]"}]], "Input",
+ CellChangeTimes->{{3.519382055381622*^9, 3.519382057440475*^9}}],
+
+Cell[BoxData["40320"], "Output",
+ CellChangeTimes->{3.519382058331205*^9, 3.519408416664988*^9}]
+}, Open  ]],
+
+Cell[CellGroupData[{
+
+Cell[BoxData[
+ RowBox[{
+  RowBox[{"(*", " ", 
+   RowBox[{"should", " ", "take", " ", "about", " ", "6", " ", "minutes"}], 
+   " ", "*)"}], "\[IndentingNewLine]", 
+  RowBox[{"(*", " ", 
+   RowBox[{
+    RowBox[{"i", "=", "1"}], ";", "\[IndentingNewLine]", 
+    RowBox[{"Timing", "[", 
+     RowBox[{
+      RowBox[{"results", "=", 
+       RowBox[{"Map", "[", 
+        RowBox[{
+         RowBox[{
+          RowBox[{"(", 
+           RowBox[{
+            RowBox[{"i", "++"}], ";", 
+            RowBox[{"If", "[", 
+             RowBox[{
+              RowBox[{
+               RowBox[{"Mod", "[", 
+                RowBox[{"i", ",", "10000"}], "]"}], "\[Equal]", "0"}], ",", 
+              RowBox[{"Print", "[", "i", "]"}]}], "]"}], ";", 
+            RowBox[{"tallyCuts", "[", "#", "]"}]}], ")"}], "&"}], ",", 
+         "decks"}], "]"}]}], ";"}], "]"}]}], " ", "*)"}], 
+  "\[IndentingNewLine]", 
+  RowBox[{"Timing", "[", 
+   RowBox[{
+    RowBox[{"results", "=", 
+     RowBox[{"Map", "[", 
+      RowBox[{"tallyCuts", ",", "decks"}], "]"}]}], ";"}], "]"}]}]], "Input",
+ CellChangeTimes->{{3.519175937936923*^9, 3.51917609546143*^9}, {
+   3.519176183307728*^9, 3.519176314336526*^9}, {3.519176400319237*^9, 
+   3.519176443471194*^9}, {3.519176482414818*^9, 3.519176505433082*^9}, {
+   3.519176587953336*^9, 3.519176652345932*^9}, {3.519176725785677*^9, 
+   3.519176748476063*^9}, {3.51917711420967*^9, 3.519177177378842*^9}, {
+   3.519177225554046*^9, 3.519177330937403*^9}, {3.519177491639328*^9, 
+   3.519177521450098*^9}, {3.519210861517819*^9, 3.519210885817104*^9}, {
+   3.519213116847697*^9, 3.519213122805968*^9}, {3.519213358684657*^9, 
+   3.519213376685409*^9}, 3.519347721975089*^9, {3.519413197811003*^9, 
+   3.519413239362486*^9}, {3.5194192054874*^9, 3.519419206746769*^9}}],
+
+Cell[BoxData[
+ RowBox[{"{", 
+  RowBox[{"350.997936`", ",", "Null"}], "}"}]], "Output",
+ CellChangeTimes->{3.519347413790841*^9, 3.519381186318286*^9, 
+  3.519383338579745*^9, 3.519408743427189*^9, 3.519413539655746*^9, 
+  3.519419547145521*^9, 3.519428229830061*^9}]
+}, Open  ]],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{"stackings", "[", 
+   RowBox[{"decks_", ",", "results_", ",", " ", "winOrLose_"}], "]"}], ":=", 
+  RowBox[{"decks", "\[LeftDoubleBracket]", 
+   RowBox[{"Flatten", "[", 
+    RowBox[{"Position", "[", 
+     RowBox[{"results", ",", 
+      RowBox[{"{", 
+       RowBox[{"{", 
+        RowBox[{"winOrLose", ",", 
+         RowBox[{"Length", "[", 
+          RowBox[{
+          "decks", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}], 
+          "]"}]}], "}"}], "}"}]}], "]"}], "]"}], 
+   "\[RightDoubleBracket]"}]}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{"playerOneStackings", "[", 
+    RowBox[{"decks_", ",", "results_"}], "]"}], ":=", 
+   RowBox[{"stackings", "[", 
+    RowBox[{"decks", ",", " ", "results", ",", "1"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{
+  RowBox[{
+   RowBox[{
+    RowBox[{"playerTwoStackings", "[", 
+     RowBox[{"decks_", ",", "results_"}], "]"}], ":=", 
+    RowBox[{"stackings", "[", 
+     RowBox[{"decks", ",", " ", "results", ",", 
+      RowBox[{"-", "1"}]}], "]"}]}], ";"}], 
+  "\[IndentingNewLine]"}], "\[IndentingNewLine]", 
+ RowBox[{"playerOneStackings", "[", 
+  RowBox[{"decks", ",", "results"}], "]"}], "\[IndentingNewLine]", 
+ RowBox[{"playerTwoStackings", "[", 
+  RowBox[{"decks", ",", "results"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.519347612222495*^9, 3.519347622285902*^9}, {
+   3.519380732051289*^9, 3.519380758070432*^9}, {3.519381408632899*^9, 
+   3.519381413973231*^9}, {3.519383813137682*^9, 3.519383814791769*^9}, {
+   3.519408235136933*^9, 3.519408238995338*^9}, {3.519408377326397*^9, 
+   3.519408380519811*^9}, 3.519408807972584*^9, 3.519409091278376*^9, {
+   3.519419022586266*^9, 3.51941916954289*^9}, {3.519419626799007*^9, 
+   3.51941962696495*^9}, {3.519428783511491*^9, 3.519428784379545*^9}}],
+
+Cell[BoxData[{
+ RowBox[{
+  RowBox[{
+   RowBox[{"listAllHandsForDeck", "[", "deck_", "]"}], ":=", 
+   RowBox[{"Grid", "[", "\[IndentingNewLine]", 
+    RowBox[{"Map", "[", 
+     RowBox[{
+      RowBox[{
+       RowBox[{"{", 
+        RowBox[{
+         RowBox[{"evalHand", "[", 
+          RowBox[{"#", "\[LeftDoubleBracket]", "1", "\[RightDoubleBracket]"}],
+           "]"}], ",", 
+         RowBox[{"evalHand", "[", 
+          RowBox[{"#", "\[LeftDoubleBracket]", "2", "\[RightDoubleBracket]"}],
+           "]"}]}], "}"}], "&"}], ",", 
+      RowBox[{"Map", "[", 
+       RowBox[{"dealKunPoker", ",", 
+        RowBox[{"allCuts", "[", "deck", "]"}]}], "]"}]}], "]"}], "]"}]}], 
+  ";"}], "\[IndentingNewLine]", 
+ RowBox[{"listAllHandsForDeck", "[", 
+  RowBox[{"{", 
+   RowBox[{
+   "2", ",", "5", ",", "10", ",", "7", ",", "3", ",", "8", ",", "4", ",", "9",
+     ",", "6"}], "}"}], "]"}]}], "Input",
+ CellChangeTimes->{{3.519381508576647*^9, 3.519381533065266*^9}, {
+   3.519381576712144*^9, 3.519381624499535*^9}, {3.519381655205614*^9, 
+   3.519381655759228*^9}, {3.519381691394998*^9, 3.519381716625089*^9}, {
+   3.519382158338696*^9, 3.519382204346386*^9}, {3.519382298623972*^9, 
+   3.519382314149405*^9}, 3.519382394489679*^9, {3.519383918596578*^9, 
+   3.519383961409741*^9}, {3.51938408175944*^9, 3.519384133811217*^9}, {
+   3.519408913385707*^9, 3.51940891852645*^9}, 3.519408956042841*^9, 
+   3.519409016108238*^9, {3.519409808880241*^9, 3.519409812494465*^9}, {
+   3.519419244661007*^9, 3.519419290990796*^9}, {3.51941963982737*^9, 
+   3.519419641807285*^9}, {3.519419747434294*^9, 3.519419786318025*^9}}]
+},
+WindowSize->{1024, 576},
+WindowMargins->{{0, Automatic}, {Automatic, 0}},
+ShowSelection->True,
+FrontEndVersion->"8.0 for Linux x86 (32-bit) (February 23, 2011)",
+StyleDefinitions->"Default.nb"
+]
+(* End of Notebook Content *)
+
+(* Internal cache information *)
+(*CellTagsOutline
+CellTagsIndex->{}
+*)
+(*CellTagsIndex
+CellTagsIndex->{}
+*)
+(*NotebookFileOutline
+Notebook[{
+Cell[557, 20, 11883, 309, 700, "Input"],
+Cell[CellGroupData[{
+Cell[12465, 333, 3001, 73, 316, "Input"],
+Cell[15469, 408, 222, 4, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15728, 417, 129, 2, 30, "Input"],
+Cell[15860, 421, 96, 1, 30, "Output"]
+}, Open  ]],
+Cell[CellGroupData[{
+Cell[15993, 427, 1772, 40, 88, "Input"],
+Cell[17768, 469, 266, 5, 30, "Output"]
+}, Open  ]],
+Cell[18049, 477, 1817, 42, 126, "Input"],
+Cell[19869, 521, 1605, 34, 69, "Input"]
+}
+]
+*)
+
+(* End of internal cache information *)

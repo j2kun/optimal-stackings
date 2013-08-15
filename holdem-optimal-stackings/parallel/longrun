@@ -1,0 +1,1 @@
+time -p ./poker 600000 50 12 > decks.txt 2>errors.txt

@@ -1,0 +1,52 @@
+Interesting facts about Optimal Stackings
+
+General:
+Optimal stackings are plentiful
+Always finds a local max in 5 <= n <= 15 steps
+22 decks found starting from 100 random decks
+
+Netbook:
+1 optimal stacking found every 15 seconds
+1 million 7-card hands processed per second (not including overhead)
+15 million 5-card hands processed per second (factor of 15 decrease for 7-card)
+
+Supercomputer:
+1 optimal stacking found every 4.5 seconds without parallelization
+2.6 optimal stackings found every second with parallelization
+7 million 7-card hands processed per second
+87 million 5-card hands processed per second (factor of 12 decrease for 7-card)
+
+Parallelized at the top level
+numTrials   trialLength    numThreads   runtime    speedup     efficiency
+100         20             1            85.26      -           -
+100         20             2            44.64      1.909       0.95
+100         20             4            22.49      3.790       0.94
+100         20             8            12.59      6.772       0.85
+100         20             12           8.99       9.484       0.79
+
+
+Parallelized at the finest level
+numTrials   trialLength    numThreads   runtime    speedup     efficiency
+100         20             1            85.26      -           -
+100         20             2            46.13      1.848       0.92
+100         20             4            23.84      3.576       0.89
+100         20             8            12.49      6.876       0.86
+100         20             12           8.66       9.84        0.82
+
+And we can see that fine-level parallelization is not as good as top level.
+To accentuate this, we have a comparison of top/fine on 1000 trials of 
+length <= 20 with 12 threads:
+
+fine
+real 90.61
+user 1073.29
+sys 6.18
+
+top
+real 76.80
+user 900.77
+sys 0.04
+
+So it's clear that static parallelization at the top level is more
+efficient than at the finest level of granularity in all three time
+measures.
